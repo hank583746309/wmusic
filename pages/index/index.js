@@ -119,6 +119,7 @@ Page({
               
               if(currentPosition == 0){  currentPosition = res.currentPosition; wx.pauseBackgroundAudio(); }
               currentPosition += 1;
+              if(currentPosition > res.duration){ currentPosition = res.duration; }
               that.setData({
                 curPosition:util.formatString('当前: {0}/总时长: {1}秒',parseInt(currentPosition),parseInt(res.duration)),
                 sliderVisibility : 'visible' 
@@ -134,9 +135,9 @@ Page({
     }
     // right
     if(endTouchX > 0 && startTouchX < endTouchX){
-        this.setData({  sliderVisibility : 'hidden'  });
         this.play(currentPosition);
     }
+    this.setData({  sliderVisibility : 'hidden'  });
   }
   ,loadErrorHandler : function(e){
      this.setData({singerpic : '../../res/img/logo_music.png' });
