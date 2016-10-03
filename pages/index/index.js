@@ -1,18 +1,23 @@
 //index.js
 /**
- * 情绪音乐( v0.0.3)
+ * 情绪音乐( v0.0.4)
  * 未尽事项事项 ： 受限于 AppID 下载功能无法使用，故离线部分部分 暂未完成
- * @version v0.0.2 
+ * @version v0.0.4
  * @author 老皇叔 官方网站 ： http://118.178.85.4/ (备案完成后请访问 www.zhixingai.ren 知性爱人)
- * @date  2016.10.02 19:10 
+ * @date  2016.10.03 20:10 
  */
 var app = getApp()
+var util = require('../../utils/util.js')
 //用于控制头像旋转 css 暂不可用
-var intervalPic = null,loading = false;
+var intervalPic = null,loading = false,startTouchX = 0,endTouchX = 0,currentPosition = 0,currentDuration = 0;
 Page({
   data: {
     hidden  : true
-   // 程序中使用到底属性初始化值
+
+   // 程序中使用到底属性初始化值\
+   ,sliderVisibility:'hidden'
+   ,curPosition    : '00:00'
+   ,musicTypeTitle : '频道选择'
    ,singername  : '未知'
    ,songname    : '未知'
    ,singerpic   : '../../res/img/logo_music.png'
@@ -38,11 +43,11 @@ Page({
     
     app.getLastPlayInfo(function(res){
         if(res.url){
-          that.setData({ songHash : res.songHash ,singername: res.singername, songname  : res.songname ,singerpic : res.image || '../../res/img/logo_music.png' });
+          that.setData({ songHash : res.songHash ,singername: res.singername, songname  : res.songname ,singerpic : res.singerpic || '../../res/img/logo_music.png' });
 
           that.setData({
               curMusicInfo : {
-                dataUrl: res.url, title  : res.songname, singer : res.singername, coverImgUrl: res.image || ''
+                dataUrl: res.url, title  : res.songname, singer : res.singername, coverImgUrl: res.singerpic || ''
               }
           });
           var _type = res.type,types = that.data.musicTypes;
@@ -98,6 +103,41 @@ Page({
     });
   }
 
+
+  ,catchtouchstart  : function(e){
+     startTouchX = e.touches[0].screenX;  endTouchX = 0;currentPosition = 0;
+  }
+  ,catchtouchmove   : function(e){
+     endTouchX = e.touches[0].screenX;
+     //快进控制 
+     var that = this;
+
+     if(endTouchX > 0 && startTouchX < endTouchX){
+        wx.getBackgroundAudioPlayerState({
+            success : function(res){
+              if(typeof res.duration == 'undefined'){ return; }
+              
+              if(currentPosition == 0){  currentPosition = res.currentPosition; wx.pauseBackgroundAudio(); }
+              currentPosition += 1;
+              that.setData({
+                curPosition:util.formatString('当前: {0}/总时长: {1}秒',parseInt(currentPosition),parseInt(res.duration)),
+                sliderVisibility : 'visible' 
+              });
+            }
+        })
+     }
+  }
+  ,catchtouchend    : function(e){
+    //判定为向左滑
+    if(endTouchX > 0 && endTouchX - startTouchX < 30){
+        this.playNext();
+    }
+    // right
+    if(endTouchX > 0 && startTouchX < endTouchX){
+        this.setData({  sliderVisibility : 'hidden'  });
+        this.play(currentPosition);
+    }
+  }
   ,loadErrorHandler : function(e){
      this.setData({singerpic : '../../res/img/logo_music.png' });
   }
@@ -123,9 +163,10 @@ Page({
   ,playNext:function(){
        var that = this,_type = that.data.musicTypes[that.data.selectIndex]['type'];
        if(loading){ return; }loading = true;
+       that.setData({musicTypeTitle:'歌曲切换中...'});
        //如果网络错误导致死循环？
        wx.request({
-              url    : 'http://118.178.85.4/HMusic/bdServlet',
+              url    : 'http://118.178.85.4/HMusic/bdServlet',//http://127.0.0.1:8080/HMusic/bdServlet
               data   : { method:'play',  'type'  : _type },
               success: function(res) {
                 if(res.data && res.data.status == 'success'){
@@ -142,7 +183,7 @@ Page({
                         }
                       });
 
-                    that.play(); loading = false;
+                    that.play(); loading = false;that.setData({musicTypeTitle:'频道选择'});
                 }else{  this.fail(); }
               },
               fail : function(){
@@ -151,10 +192,6 @@ Page({
        })
       
   }
-
-
-
-
 
   //这个方法方法 自己可以随意更正更正 保证数据接口一致即可 v0.0.3 固定一个接口 以下俩将接口作废 敬请期待[已作废]
   /*,randomMusic : function(i){

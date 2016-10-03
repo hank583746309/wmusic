@@ -17,5 +17,16 @@ function formatNumber(n) {
 }
 
 module.exports = {
-  formatTime: formatTime
+  formatTime: formatTime,
+  formatString : function(){
+    if (arguments.length > 0) {
+        var s = arguments[0];
+        if (arguments.length == 1) { return s; }
+        for ( var i = 0; i < arguments.length - 1; i++) {
+          s = s.replace(new RegExp("\\{" + i + "\\}", "g"),arguments[i + 1]);
+        }
+        return s;
+      }
+      return null;
+  }
 }

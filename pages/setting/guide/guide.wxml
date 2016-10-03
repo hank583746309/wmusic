@@ -1,15 +1,10 @@
 <view class="container" style="padding:10px;">
     
-    <view class="hx-p" >
-        <text style="color:red;">[暂未支持]</text>部分会在v0.0.4中增加支持
-    </view>
-
-
-    <text class="hx-p">
-        [暂未支持]左滑  下一首
+   <text class="hx-p">
+        左滑  下一首
     </text>
     <text class="hx-p">
-         [暂未支持]右滑  快进
+        右滑  快进
     </text>
     <text class="hx-p">
         点击中间图片用于切换播放和暂停
@@ -18,6 +13,4 @@
         选择频道 选择你当前的心情 系统会自动匹配相应的歌曲，祝您听的开心 :)
     </text>
     
-  
-
 </view>
