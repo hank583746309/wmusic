@@ -98,6 +98,9 @@ Page({
     });
   }
 
+  ,loadErrorHandler : function(e){
+     this.setData({singerpic : '../../res/img/logo_music.png' });
+  }
   ,settingHandler   : function(e){
      wx.navigateTo({url : '../setting/setting'});
   }
