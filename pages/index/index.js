@@ -72,6 +72,8 @@ Page({
        app.setLastPlayInfo({  status : 'pause' });
     });
     wx.onBackgroundAudioPlay (function(e){ 
+       that.setData({  sliderVisibility : 'hidden'  });
+       
        that.clearRotate();
        intervalPic = setInterval(function(){
           if(that.data.singerPicRotate == 360){  that.setData({ singerPicRotate : 0 }); }
@@ -137,7 +139,7 @@ Page({
     if(endTouchX > 0 && startTouchX < endTouchX){
         this.play(currentPosition);
     }
-    this.setData({  sliderVisibility : 'hidden'  });
+    
   }
   ,loadErrorHandler : function(e){
      this.setData({singerpic : '../../res/img/logo_music.png' });
@@ -167,7 +169,7 @@ Page({
        that.setData({musicTypeTitle:'歌曲切换中...'});
        //如果网络错误导致死循环？
        wx.request({
-              url    : 'http://118.178.85.4/HMusic/bdServlet',//http://127.0.0.1:8080/HMusic/bdServlet
+              url    : 'http://127.0.0.1:8080/HMusic/bdServlet',// http://118.178.85.4/HMusic/bdServlet
               data   : { method:'play',  'type'  : _type },
               success: function(res) {
                 if(res.data && res.data.status == 'success'){
