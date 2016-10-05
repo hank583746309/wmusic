@@ -4,7 +4,7 @@
  * 未尽事项事项 ： 受限于 AppID 下载功能无法使用，故离线部分部分 暂未完成
  * @version v0.0.4
  * @author 老皇叔 官方网站 ： http://118.178.85.4/ (备案完成后请访问 www.zhixingai.ren 知性爱人)
- * @date  2016.10.03 20:10 
+ * @date  2016.10.05 19:10 
  */
 var app = getApp()
 var util = require('../../utils/util.js')
@@ -37,7 +37,10 @@ Page({
     ,playList : []
     ,curMusicInfo : {}
   },
-  onLoad: function () {
+  //用于节省内存
+   onHide : function(){ this.clearRotate(); }
+  ,onShow : function(){ this.bindRotate(); }
+  ,onLoad: function () {
     var that = this,
     autoplay = wx.getStorageSync(app.key.isAutoPlay);
     
@@ -75,10 +78,7 @@ Page({
        that.setData({  sliderVisibility : 'hidden'  });
        
        that.clearRotate();
-       intervalPic = setInterval(function(){
-          if(that.data.singerPicRotate == 360){  that.setData({ singerPicRotate : 0 }); }
-          that.setData({ singerPicRotate : (that.data.singerPicRotate + 1) });
-        },50);
+       that.bindRotate();
 
         //设置最后一次播放信息
         app.setLastPlayInfo({ 
@@ -169,7 +169,7 @@ Page({
        that.setData({musicTypeTitle:'歌曲切换中...'});
        //如果网络错误导致死循环？
        wx.request({
-              url    : 'http://127.0.0.1:8080/HMusic/bdServlet',// http://118.178.85.4/HMusic/bdServlet
+              url    : 'http://118.178.85.4/HMusic/bdServlet',// http://118.178.85.4/HMusic/bdServlet
               data   : { method:'play',  'type'  : _type },
               success: function(res) {
                 if(res.data && res.data.status == 'success'){
@@ -290,5 +290,12 @@ Page({
   },
   clearRotate : function(){
       if(intervalPic != null){ clearInterval(intervalPic); intervalPic = null;}
+  },
+  bindRotate  : function(){
+       var that = this;
+       intervalPic = setInterval(function(){
+          if(that.data.singerPicRotate == 360){  that.setData({ singerPicRotate : 0 }); }
+          that.setData({ singerPicRotate : (that.data.singerPicRotate + 1) });
+        },50);
   }
 })

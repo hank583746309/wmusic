@@ -6,9 +6,9 @@
     已清除
 </toast>
 
-<view class="container">
+<view class="container" style="background-color:#f5f5f5;">
 
-    <view class="hx-li" style="line-height:72rpx;height:72rpx;margin:20px 0; border-top: 1px solid #f7f7f7;border-bottom: 1px solid #f7f7f7;" >
+    <view class="hx-li" style="background-color: #fff;line-height:72rpx;height:72rpx;margin:20px 0; border-top: 1px solid #f7f7f7;border-bottom: 1px solid #f7f7f7;" >
         <text style="font-size:15px;margin-left:10px;">自动播放</text>
         <view style="float:right;">
             <switch checked="{{autoplay}}" style="margin:0 8px 0 0;" bindchange="changeHandler" data-tag="autoplay"/>

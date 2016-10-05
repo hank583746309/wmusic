@@ -1,4 +1,4 @@
-<view class="container">
+<view class="container" style="background-color:#f5f5f5;">
 
 <view class="hx-ul-group" style="margin:40rpx 0;">
 

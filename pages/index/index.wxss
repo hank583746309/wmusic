@@ -37,7 +37,8 @@
   display:-webkit-flex;
 }
 .singer-pic{
-  background-color: #eeeeee;border-radius:50%;
+  background-image: '../../res/img/logo_music.png';
+  border-radius:50%;
   border: 1px solid  #fff;
   transform:rotate(0deg);
   -ms-transform:rotate(0deg); 	/* IE 9 */
