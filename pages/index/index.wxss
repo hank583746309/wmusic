@@ -37,7 +37,8 @@
   display:-webkit-flex;
 }
 .singer-pic{
-  background-image: '../../res/img/logo_music.png';
+  background: url('../../res/img/logo_music.png') no-repeat;
+  background-size:100%;
   border-radius:50%;
   border: 1px solid  #fff;
   transform:rotate(0deg);

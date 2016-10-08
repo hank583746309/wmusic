@@ -36,10 +36,10 @@ Page({
     ]
     ,playList : []
     ,curMusicInfo : {}
-  },
+  }
   //用于节省内存
-   onHide : function(){ this.clearRotate(); }
-  ,onShow : function(){ this.bindRotate(); }
+  // onHide : function(){ this.clearRotate(); }
+  // ,onShow : function(){ this.bindRotate(); }
   ,onLoad: function () {
     var that = this,
     autoplay = wx.getStorageSync(app.key.isAutoPlay);
@@ -169,7 +169,7 @@ Page({
        that.setData({musicTypeTitle:'歌曲切换中...'});
        //如果网络错误导致死循环？
        wx.request({
-              url    : 'http://118.178.85.4/HMusic/bdServlet',// http://118.178.85.4/HMusic/bdServlet
+              url    : 'http://118.178.85.4/HMusic/bdServlet',// http://118.178.85.4/HMusic/bdServlet http://127.0.0.1:8080/HMusic/bdServlet
               data   : { method:'play',  'type'  : _type },
               success: function(res) {
                 if(res.data && res.data.status == 'success'){
