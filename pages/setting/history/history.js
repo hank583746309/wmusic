@@ -9,12 +9,11 @@ Page({
          for(var _type in data){
             hashs = data[_type]; for(var h in hashs){ records.push(hashs[h]); }
          }
+         records.map(function(record){
+            record.typeName = map[record.type];
+         });
          //按收听次数次数 、 时间
-         records.sort(function(record1,record2){
-              //TODO 这里正常应该用模板映射,但暂未找到方法
-              record1.typeName = map[record1.type];
-              record2.typeName = map[record2.type];  
-              
+         records.sort(function(record1,record2){        
               if(record1.num == record2.num){
                   return record2.lasttime - record1.lasttime;
               }

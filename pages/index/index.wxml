@@ -6,7 +6,7 @@
 
 <view class="container">
 
-  <view bindtap="settingHandler" style="position:absolute;right:20rpx;">
+  <view bindtap="settingHandler" style="position:absolute;right:20rpx;z-index:2;">
     <image style="width:40rpx; height:40rpx;" src="../../res/img/setting.png"></image>
   </view>
 
@@ -22,6 +22,7 @@
            <view style="padding-top:20rpx;visibility:{{sliderVisibility}};color:#F7941D;font-size:11px;" >{{curPosition}}</view>
            
       </view>
+  
   </view>
   <!-- 底部情绪选择区 -->
   <view class="music-bottom">
